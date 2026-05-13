@@ -12,13 +12,15 @@ export async function forwardToN8n(jobData) {
   const reqLogger = proxyLogger.child({ method, targetPath, url });
   reqLogger.debug('Forwarding request to n8n');
 
+  const rawBody = body?.type === 'Buffer' ? Buffer.from(body.data) : body;
+
   try {
     const { host, 'content-length': _cl, ...cleanHeaders } = headers;
 
     const response = await request(url, {
       method,
       headers: cleanHeaders,
-      body: body ?? undefined,
+      body: rawBody ?? undefined,
     });
 
     const responseBody = await response.body.text();
