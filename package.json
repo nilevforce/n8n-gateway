@@ -8,7 +8,6 @@
 		"dev": "nodemon src/server.js"
 	},
 	"dependencies": {
-		"@fastify/formbody": "^8.0.2",
 		"bullmq": "5.76.8",
 		"dotenv": "^17.4.2",
 		"fastify": "5.8.5",

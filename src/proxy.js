@@ -13,12 +13,12 @@ export async function forwardToN8n(jobData) {
   reqLogger.debug('Forwarding request to n8n');
 
   try {
-    const { host, ...cleanHeaders } = headers;
+    const { host, 'content-length': _cl, ...cleanHeaders } = headers;
 
     const response = await request(url, {
       method,
       headers: cleanHeaders,
-      body: body ? (typeof body === 'object' ? JSON.stringify(body) : body) : undefined,
+      body: body ?? undefined,
     });
 
     const responseBody = await response.body.text();
