@@ -1,9 +1,17 @@
 version: '3.8'
 
 services:
+  redis:
+    image: redis:7-alpine
+    container_name: n8n-gateway-redis-dev
+    ports:
+      - "6379:6379"
+
   gateway:
     build: .
     container_name: n8n-gateway-dev
+    ports:
+      - "8000:8000"
     environment:
       - NODE_ENV=development
       - N8N_URL=${N8N_URL}
@@ -11,7 +19,9 @@ services:
       - PORT=8000
       - LOG_LEVEL=debug
     volumes:
-      - ./src:/app/src   # 👈 главный момент (live reload)
+      - ./src:/app/src
       - ./package.json:/app/package.json
       - ./package-lock.json:/app/package-lock.json
     command: npm run dev
+    depends_on:
+      - redis
