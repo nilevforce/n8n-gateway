@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: n8n-gateway-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  gateway:
+    build: .
+    container_name: n8n-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - N8N_URL=${N8N_URL}
+      - REDIS_URL=redis://redis:6379
+      - CONCURRENCY=${CONCURRENCY:-25}
+      - PORT=8000
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    restart: unless-stopped
+
+volumes:
+  redis_data:

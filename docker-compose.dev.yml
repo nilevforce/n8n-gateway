@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  gateway:
+    build: .
+    container_name: n8n-gateway-dev
+    environment:
+      - NODE_ENV=development
+      - N8N_URL=${N8N_URL}
+      - REDIS_URL=redis://redis:6379
+      - PORT=8000
+      - LOG_LEVEL=debug
+    volumes:
+      - ./src:/app/src   # 👈 главный момент (live reload)
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+    command: npm run dev
