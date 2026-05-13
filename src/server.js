@@ -1,6 +1,7 @@
 import 'dotenv/config.js';
 
 import Fastify from 'fastify';
+import formbody from '@fastify/formbody';  // ← добавить
 import { webhookQueue } from './queue.js';
 import { pendingRequests } from './pending.js';
 import { config } from './config.js';
@@ -12,6 +13,8 @@ const serverLogger = createChildLogger('server');
 const fastify = Fastify({
   loggerInstance: logger
 });
+
+fastify.register(formbody);
 
 // Создаем отдельное соединение для health check
 const healthCheckRedis = new IORedis(config.redisUrl);
