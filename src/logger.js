@@ -3,11 +3,13 @@ import roll from 'pino-roll';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+const LOG_DIR = process.env.LOG_DIR || './logs';
+
 const logStream = roll({
-  file: './logs/app.log',
-  frequency: 'daily', // 👈 ротация каждый день
-  size: null,         // можно указать лимит типа '10m' если нужно
-  mkdir: true         // создаст папку logs автоматически
+  file: `${LOG_DIR}/app.log`,
+  frequency: 'daily',
+  size: null,
+  mkdir: true
 });
 
 export const logger = pino(

@@ -19,10 +19,12 @@ services:
       - NODE_ENV=production
       - N8N_URL=${N8N_URL}
       - REDIS_URL=redis://redis:6379
-      - CONCURRENCY=${CONCURRENCY:-25}
+      - CONCURRENCY=${CONCURRENCY}
       - PORT=8000
-      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_LEVEL=info
+      - LOG_DIR=/app/logs
     restart: unless-stopped
 
 volumes:
   redis_data:
+
